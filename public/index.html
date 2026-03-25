@@ -202,6 +202,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
+                
                 const result = await response.json();
                 document.getElementById('loadingOverlay').style.display = 'none';
                 
@@ -210,11 +211,12 @@
                     document.getElementById('emailForm').reset();
                     charCount.textContent = '0';
                 } else {
-                    showToast(result.error, 'error');
+                    showToast(result.error || 'Failed to send', 'error');
                 }
             } catch (error) {
                 document.getElementById('loadingOverlay').style.display = 'none';
-                showToast('Network error! Please try again.', 'error');
+                showToast('Network error! Check console.', 'error');
+                console.error('Error:', error);
             }
         });
         
