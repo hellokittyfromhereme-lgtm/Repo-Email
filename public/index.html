@@ -3,190 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickMail - Professional Email Service</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <title>QuickMail - Send Email</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #006a4e 0%, #f42a41 100%);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
         }
-
-        .container {
-            max-width: 550px;
-            margin: 0 auto;
-        }
-
         .card {
             background: white;
-            border-radius: 28px;
+            border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
-            animation: fadeIn 0.5s ease;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .logo {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
-
         .logo h1 {
-            font-size: 38px;
+            font-size: 32px;
             background: linear-gradient(135deg, #006a4e, #f42a41);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-
         .badge {
             text-align: center;
-            margin: 15px 0 25px 0;
-            padding: 10px;
+            margin-bottom: 25px;
+            padding: 8px;
             background: #f0f0f0;
-            border-radius: 50px;
+            border-radius: 30px;
             font-size: 14px;
-            font-weight: 500;
         }
-
-        .badge span {
-            color: #006a4e;
-            font-weight: bold;
-        }
-
-        .form-group {
+        .field {
             margin-bottom: 20px;
         }
-
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: #333;
-            font-size: 14px;
         }
-
-        label i {
-            margin-right: 8px;
-            color: #006a4e;
-        }
-
         input, textarea {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 16px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 14px;
             font-family: inherit;
-            transition: all 0.3s ease;
         }
-
         input:focus, textarea:focus {
             outline: none;
             border-color: #006a4e;
-            box-shadow: 0 0 0 3px rgba(0,106,78,0.1);
         }
-
         textarea {
-            min-height: 110px;
+            min-height: 100px;
             resize: vertical;
         }
-
         button {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             background: linear-gradient(135deg, #006a4e, #f42a41);
             color: white;
             border: none;
-            border-radius: 40px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
-
         button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            opacity: 0.9;
         }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
         .loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.8);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            flex-direction: column;
-            gap: 20px;
         }
-
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: #f42a41;
+            border-top-color: white;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        .loading p {
-            color: white;
-            font-size: 16px;
-        }
-
         .toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 14px 28px;
-            border-radius: 50px;
+            padding: 12px 24px;
+            border-radius: 30px;
             color: white;
             font-weight: 500;
             z-index: 1001;
-            animation: slideUp 0.3s ease;
-            white-space: nowrap;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: fadeUp 0.3s ease;
         }
-
         .toast.success { background: #006a4e; }
         .toast.error { background: #f42a41; }
-
-        @keyframes slideUp {
+        @keyframes fadeUp {
             from {
                 opacity: 0;
                 transform: translateX(-50%) translateY(20px);
@@ -196,234 +131,130 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
-
-        .char-count {
-            text-align: right;
-            font-size: 12px;
-            color: #888;
-            margin-top: 6px;
-        }
-
-        .optional-badge {
-            font-size: 11px;
-            background: #e5e7eb;
-            padding: 3px 10px;
-            border-radius: 30px;
-            margin-left: 10px;
-            font-weight: normal;
-        }
-
         .footer {
             text-align: center;
             margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
             font-size: 12px;
             color: #888;
-        }
-
-        @media (max-width: 550px) {
-            .card {
-                padding: 25px;
-            }
-            .logo h1 {
-                font-size: 30px;
-            }
-            .toast {
-                white-space: normal;
-                text-align: center;
-                max-width: 90%;
-            }
         }
     </style>
 </head>
 <body>
     <div class="loading" id="loading">
         <div class="spinner"></div>
-        <p>📧 Sending email...</p>
+        <p style="color:white; margin-top:15px;">Sending email...</p>
     </div>
 
-    <div class="container">
-        <div class="card">
-            <div class="logo">
-                <h1>📧 QUICKMAIL</h1>
+    <div class="card">
+        <div class="logo">
+            <h1>📧 QUICKMAIL</h1>
+        </div>
+        <div class="badge">
+            ✨ Made by Hossain | Made in Bangladesh 🇧🇩
+        </div>
+
+        <form id="form">
+            <div class="field">
+                <label>👤 Your Name</label>
+                <input type="text" name="name" id="name" placeholder="Hossain Mahmud" required>
             </div>
-            <div class="badge">
-                ✨ Made by <span>Hossain</span> | Made in <span>Bangladesh</span> 🇧🇩
+            <div class="field">
+                <label>📧 Your Email</label>
+                <input type="email" name="email" id="email" placeholder="you@example.com" required>
             </div>
-
-            <form id="emailForm">
-                <div class="form-group">
-                    <label><i>👤</i> Your Name *</label>
-                    <input type="text" id="name" placeholder="Hossain Mahmud" required>
-                </div>
-
-                <div class="form-group">
-                    <label><i>📧</i> Your Email *</label>
-                    <input type="email" id="from_email" placeholder="you@example.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label><i>🎯</i> Receiver Email *</label>
-                    <input type="email" id="to_email" placeholder="friend@example.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label><i>↩️</i> Reply To <span class="optional-badge">Optional</span></label>
-                    <input type="email" id="replyto" placeholder="reply@example.com">
-                </div>
-
-                <div class="form-group">
-                    <label><i>📌</i> Subject *</label>
-                    <input type="text" id="subject" placeholder="Enter email subject..." required>
-                </div>
-
-                <div class="form-group">
-                    <label><i>💬</i> Message *</label>
-                    <textarea id="message" placeholder="Write your message here..." required></textarea>
-                    <div class="char-count"><span id="charCount">0</span> characters</div>
-                </div>
-
-                <button type="submit">
-                    ✈️ Send Email
-                </button>
-            </form>
-
-            <div class="footer">
-                ⚡ Instant delivery • Powered by EmailJS • Made in Bangladesh
+            <div class="field">
+                <label>🎯 Receiver Email</label>
+                <input type="email" name="to_email" id="to_email" placeholder="friend@example.com" required>
             </div>
+            <div class="field">
+                <label>📌 Subject</label>
+                <input type="text" name="subject" id="subject" placeholder="Email Subject" required>
+            </div>
+            <div class="field">
+                <label>💬 Message</label>
+                <textarea name="message" id="message" placeholder="Write your message here..." required></textarea>
+            </div>
+            <button type="submit" id="button">✈️ Send Email</button>
+        </form>
+        <div class="footer">
+            Powered by EmailJS • Made in Bangladesh
         </div>
     </div>
 
-    <script>
-        // EmailJS Configuration
-        const EMAILJS_PUBLIC_KEY = 'IFGrMfv4ZZezZaNUg';
-        const EMAILJS_SERVICE_ID = 'service_6q1uzvq';
-        const EMAILJS_TEMPLATE_ID = 'template_gyxfa4q';
-        
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
         // Initialize EmailJS
-        emailjs.init(EMAILJS_PUBLIC_KEY);
+        emailjs.init('IFGrMfv4ZZezZaNUg');
         
-        // Character counter
-        const messageInput = document.getElementById('message');
-        const charCountSpan = document.getElementById('charCount');
-        
-        messageInput.addEventListener('input', function() {
-            charCountSpan.textContent = this.value.length;
-        });
+        // Get form elements
+        const form = document.getElementById('form');
+        const loading = document.getElementById('loading');
         
         // Email validation function
         function validateEmail(email) {
-            const re = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
-            return re.test(email);
+            return /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email);
         }
         
         // Show toast notification
         function showToast(message, type) {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.innerHTML = message;
+            toast.textContent = message;
             document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 4000);
+            setTimeout(() => toast.remove(), 4000);
         }
         
-        // Form submission
-        document.getElementById('emailForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // Form submit handler
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
             
             // Get form values
             const name = document.getElementById('name').value.trim();
-            const from_email = document.getElementById('from_email').value.trim();
+            const email = document.getElementById('email').value.trim();
             const to_email = document.getElementById('to_email').value.trim();
-            const replyto = document.getElementById('replyto').value.trim();
             const subject = document.getElementById('subject').value.trim();
             const message = document.getElementById('message').value.trim();
             
-            // Validate required fields
-            if (!name || !from_email || !to_email || !subject || !message) {
-                showToast('❌ Please fill all required fields!', 'error');
+            // Validate
+            if (!name || !email || !to_email || !subject || !message) {
+                showToast('❌ Please fill all fields!', 'error');
                 return;
             }
             
-            // Validate email formats
-            if (!validateEmail(from_email)) {
-                showToast('❌ Invalid sender email address!', 'error');
+            if (!validateEmail(email)) {
+                showToast('❌ Invalid sender email!', 'error');
                 return;
             }
             
             if (!validateEmail(to_email)) {
-                showToast('❌ Invalid receiver email address!', 'error');
-                return;
-            }
-            
-            if (replyto && !validateEmail(replyto)) {
-                showToast('❌ Invalid reply-to email address!', 'error');
+                showToast('❌ Invalid receiver email!', 'error');
                 return;
             }
             
             // Show loading
-            document.getElementById('loading').style.display = 'flex';
+            loading.style.display = 'flex';
             
-            // Prepare template parameters
+            // Template parameters - MATCH YOUR TEMPLATE VARIABLES
             const templateParams = {
                 name: name,
-                from_email: from_email,
+                email: email,
                 to_email: to_email,
-                reply_to: replyto || from_email,
                 subject: subject,
                 message: message
             };
             
-            try {
-                const response = await emailjs.send(
-                    EMAILJS_SERVICE_ID, 
-                    EMAILJS_TEMPLATE_ID, 
-                    templateParams
-                );
-                
-                document.getElementById('loading').style.display = 'none';
-                
-                if (response.status === 200) {
+            // Send email
+            emailjs.send('service_6q1uzvq', 'template_gyxfa4q', templateParams)
+                .then(function(response) {
+                    loading.style.display = 'none';
+                    console.log('SUCCESS!', response.status, response.text);
                     showToast(`✅ Email sent successfully to ${to_email}`, 'success');
-                    // Reset form
-                    document.getElementById('emailForm').reset();
-                    charCountSpan.textContent = '0';
-                } else {
-                    showToast('❌ Failed to send email. Please try again.', 'error');
-                }
-                
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                console.error('EmailJS Error:', error);
-                
-                if (error.text === 'The template ID not found') {
-                    showToast('❌ Template ID not found! Please check your EmailJS template.', 'error');
-                } else {
-                    showToast('❌ ' + (error.text || 'Failed to send email. Please try again.'), 'error');
-                }
-            }
-        });
-        
-        // Real-time validation for email fields
-        document.getElementById('from_email').addEventListener('blur', function() {
-            if (this.value && !validateEmail(this.value)) {
-                this.style.borderColor = '#f42a41';
-                showToast('❌ Invalid sender email address!', 'error');
-            } else {
-                this.style.borderColor = '#e5e7eb';
-            }
-        });
-        
-        document.getElementById('to_email').addEventListener('blur', function() {
-            if (this.value && !validateEmail(this.value)) {
-                this.style.borderColor = '#f42a41';
-                showToast('❌ Invalid receiver email address!', 'error');
-            } else {
-                this.style.borderColor = '#e5e7eb';
-            }
+                    form.reset();
+                }, function(error) {
+                    loading.style.display = 'none';
+                    console.log('FAILED...', error);
+                    showToast(`❌ Failed: ${error.text || 'Please check template variables'}`, 'error');
+                });
         });
     </script>
 </body>
