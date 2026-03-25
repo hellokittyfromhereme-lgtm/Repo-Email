@@ -3,64 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickMail - Professional Email Service</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>QuickMail - Email Service</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #006a4e 0%, #f42a41 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        .container { max-width: 700px; margin: 0 auto; }
-        .logo-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        .container { max-width: 600px; margin: 0 auto; }
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-        .logo-icon { font-size: 60px; color: #006a4e; margin-bottom: 15px; }
-        .logo-card h1 {
-            font-size: 42px;
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            font-size: 36px;
             background: linear-gradient(135deg, #006a4e, #f42a41);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .made-by {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
         }
-        .made-by .name { color: #006a4e; font-size: 18px; font-weight: 600; }
-        .made-by .country { color: #f42a41; margin-top: 5px; }
-        .form-card {
-            background: rgba(255,255,255,0.98);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        .form-group {
+            margin-bottom: 20px;
         }
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
-        .form-group label i { margin-right: 8px; color: #006a4e; }
-        .form-group input, .form-group textarea {
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        input, textarea {
             width: 100%;
-            padding: 12px 15px;
+            padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 14px;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
+            font-family: inherit;
         }
-        .form-group input:focus, .form-group textarea:focus {
+        input:focus, textarea:focus {
             outline: none;
             border-color: #006a4e;
         }
-        .form-group textarea { min-height: 120px; resize: vertical; }
-        .submit-btn {
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        button {
             width: 100%;
             padding: 14px;
             background: linear-gradient(135deg, #006a4e, #f42a41);
@@ -70,13 +70,11 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
-        .submit-btn:hover { transform: translateY(-2px); opacity: 0.95; }
-        .loading-overlay {
+        button:hover {
+            opacity: 0.9;
+        }
+        .loading {
             position: fixed;
             top: 0;
             left: 0;
@@ -89,108 +87,117 @@
             z-index: 1000;
         }
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: #006a4e;
+            border-top-color: white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
         .toast {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 25px;
-            border-radius: 12px;
+            padding: 12px 20px;
+            border-radius: 10px;
             color: white;
-            font-weight: 500;
             z-index: 1001;
             animation: slideIn 0.3s ease;
         }
-        .toast.success { background: linear-gradient(135deg, #006a4e, #008b5e); }
-        .toast.error { background: linear-gradient(135deg, #f42a41, #c62828); }
+        .toast.success { background: #006a4e; }
+        .toast.error { background: #f42a41; }
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(100px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        .char-counter { font-size: 12px; color: #999; text-align: right; margin-top: 5px; }
-        .optional-badge { font-size: 11px; background: #e0e0e0; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
-        @media (max-width: 768px) {
-            .form-card { padding: 25px; }
-            .logo-card h1 { font-size: 32px; }
+        .char-count {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .optional {
+            font-size: 11px;
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
         }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading" id="loading">
         <div class="spinner"></div>
-        <div class="loading-text" style="color:white; margin-top:15px;">Sending Email...</div>
     </div>
 
     <div class="container">
-        <div class="logo-card">
-            <div class="logo-icon"><i class="fas fa-envelope-open-text"></i></div>
-            <h1>QUICKMAIL</h1>
-            <div class="made-by">
-                <div class="name"><i class="fas fa-code"></i> Made by Hossain</div>
-                <div class="country"><i class="fas fa-map-marker-alt"></i> Made in Bangladesh 🇧🇩</div>
+        <div class="card">
+            <div class="logo">
+                <h1>📧 QUICKMAIL</h1>
             </div>
-        </div>
+            <div class="made-by">
+                <span>Made by Hossain | Made in Bangladesh 🇧🇩</span>
+            </div>
 
-        <div class="form-card">
             <form id="emailForm">
                 <div class="form-group">
-                    <label><i class="fas fa-user"></i> Sender's Name <span style="color:#f42a41;">*</span></label>
-                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                    <label>Sender's Name *</label>
+                    <input type="text" id="name" required>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-paper-plane"></i> Sender's Email <span style="color:#f42a41;">*</span></label>
-                    <input type="email" id="sender" name="from" placeholder="your@email.com" required>
+                    <label>Sender's Email *</label>
+                    <input type="email" id="from" required>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-user-friends"></i> Receiver's Email <span style="color:#f42a41;">*</span></label>
-                    <input type="email" id="receiver" name="email" placeholder="receiver@email.com" required>
+                    <label>Receiver's Email *</label>
+                    <input type="email" id="to" required>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-reply"></i> Reply To <span class="optional-badge">Optional</span></label>
-                    <input type="email" id="replyto" name="replyto" placeholder="reply@email.com">
+                    <label>Reply To <span class="optional">Optional</span></label>
+                    <input type="email" id="replyto">
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-tag"></i> Subject <span style="color:#f42a41;">*</span></label>
-                    <input type="text" id="subject" name="subject" placeholder="Email Subject" required>
+                    <label>Subject *</label>
+                    <input type="text" id="subject" required>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-comment-dots"></i> Message <span style="color:#f42a41;">*</span></label>
-                    <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
-                    <div class="char-counter"><span id="charCount">0</span> characters</div>
+                    <label>Message *</label>
+                    <textarea id="message" required></textarea>
+                    <div class="char-count"><span id="charCount">0</span> characters</div>
                 </div>
 
-                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Send Email</button>
+                <button type="submit">📧 Send Email</button>
             </form>
         </div>
     </div>
 
     <script>
-        const messageInput = document.getElementById('message');
+        // Character counter
+        const messageField = document.getElementById('message');
         const charCount = document.getElementById('charCount');
-        messageInput.addEventListener('input', function() {
-            charCount.textContent = this.value.length;
+        messageField.addEventListener('input', () => {
+            charCount.textContent = messageField.value.length;
         });
 
-        document.getElementById('emailForm').addEventListener('submit', async function(e) {
+        // Form submit
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            document.getElementById('loadingOverlay').style.display = 'flex';
             
-            const formData = {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+            
+            const data = {
                 name: document.getElementById('name').value,
-                from: document.getElementById('sender').value,
-                email: document.getElementById('receiver').value,
+                from: document.getElementById('from').value,
+                email: document.getElementById('to').value,
                 replyto: document.getElementById('replyto').value,
                 subject: document.getElementById('subject').value,
                 message: document.getElementById('message').value
@@ -200,22 +207,22 @@
                 const response = await fetch('/api/send', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(data)
                 });
                 
                 const result = await response.json();
-                document.getElementById('loadingOverlay').style.display = 'none';
+                loading.style.display = 'none';
                 
                 if (result.success) {
                     showToast(result.message, 'success');
                     document.getElementById('emailForm').reset();
                     charCount.textContent = '0';
                 } else {
-                    showToast(result.error || 'Failed to send', 'error');
+                    showToast(result.error, 'error');
                 }
             } catch (error) {
-                document.getElementById('loadingOverlay').style.display = 'none';
-                showToast('Network error! Check console.', 'error');
+                loading.style.display = 'none';
+                showToast('Network error: ' + error.message, 'error');
                 console.error('Error:', error);
             }
         });
@@ -223,32 +230,10 @@
         function showToast(message, type) {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+            toast.textContent = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 5000);
         }
-        
-        function validateEmail(email) {
-            return /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email);
-        }
-        
-        document.getElementById('sender').addEventListener('blur', function() {
-            if (this.value && !validateEmail(this.value)) {
-                showToast('Invalid sender email!', 'error');
-                this.style.borderColor = '#f42a41';
-            } else {
-                this.style.borderColor = '#e0e0e0';
-            }
-        });
-        
-        document.getElementById('receiver').addEventListener('blur', function() {
-            if (this.value && !validateEmail(this.value)) {
-                showToast('Invalid receiver email!', 'error');
-                this.style.borderColor = '#f42a41';
-            } else {
-                this.style.borderColor = '#e0e0e0';
-            }
-        });
     </script>
 </body>
 </html>
